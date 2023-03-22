@@ -16,5 +16,15 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_slideshow" />
+        <item
+            android:id="@+id/nav_vendas"
+            android:icon="@drawable/ic_vendas_24"
+            android:title="@string/menu_vendas" />
+        <item
+            android:id="@+id/nav_trocas"
+            android:title="@string/menu_trocas" />
+        <item
+            android:id="@+id/nav_compras"
+            android:title="@string/menu_compra" />
     </group>
 </menu>

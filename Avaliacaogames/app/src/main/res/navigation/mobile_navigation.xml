@@ -22,4 +22,19 @@
         android:name="com.mobile.avaliacaogames.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_vendas"
+        android:name="com.mobile.avaliacaogames.ui.vendas.VendasFragment"
+        android:label="Minhas vendas"
+        tools:layout="@layout/fragment_vendas" />
+    <fragment
+        android:id="@+id/nav_trocas"
+        android:name="com.mobile.avaliacaogames.ui.trocas.TrocasFragment"
+        android:label="Minhas trocas"
+        tools:layout="@layout/fragment_trocas" />
+    <fragment
+        android:id="@+id/nav_compras"
+        android:name="com.mobile.avaliacaogames.ui.compras.ComprasFragment"
+        android:label="Minhas compras"
+        tools:layout="@layout/fragment_compras" />
 </navigation>
