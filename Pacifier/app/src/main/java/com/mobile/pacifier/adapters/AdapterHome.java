@@ -50,8 +50,8 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> 
             super(itemView);
             textNome = itemView.findViewById(R.id.textNome);
             textValor = itemView.findViewById(R.id.textValor);
-            textVendedor = itemView.findViewById(R.id.textVendedor);
-            imageAvaliar = itemView.findViewById(R.id.imageAvaliar);
+            textVendedor = itemView.findViewById(R.id.textNomeTroca);
+            imageAvaliar = itemView.findViewById(R.id.imageTroca);
         }
     }
 

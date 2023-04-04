@@ -17,66 +17,72 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/textVendedor"
+                android:id="@+id/textNomeTroca"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nome do Vendedor"
+                android:text="Nome do anuncio troca"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageAvaliar"
+                android:id="@+id/imageTroca"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/imagem1" />
 
-            <TextView
-                android:id="@+id/textNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal"
-                android:text="Nome do anuncio"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/textValor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center_horizontal"
-                android:text="Valor do anuncio"
-                android:textSize="16sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-            <Button
-                android:id="@+id/buttonComentar"
-                style="?attr/buttonBarButtonStyle"
+            <TextView
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_comentario_cinza_24"
-                android:text="comentar"
+                android:text="Remetente:"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/buttonAvaliar"
-                style="?attr/buttonBarButtonStyle"
+            <TextView
+                android:id="@+id/textStatusRemetente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="center_horizontal"
+                android:text="AGURDANDO ENVIO"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_estrela_cinza_24"
-                android:text="avaliar"
+                android:text="Destinatário:"
+                android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textStatusDestinatario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:gravity="center_horizontal"
+                android:text="ENVIADO A TRANSPORTADORA"
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
