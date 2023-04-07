@@ -31,4 +31,43 @@ public class AuthService {
             return false;
         }
     }
+
+    public boolean cadastrarUsuario(Usuario usuario) {
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("INSERT INTO usuario (nome, sobrenome, cpf, email, senha, celular) VALUES (?, ?, ?, ?, ?, ?)");
+            statement.setString(1, usuario.getNome());
+            statement.setString(2, usuario.getSobrenome());
+            statement.setString(3, String.valueOf(usuario.getCpf()));
+            statement.setString(4, usuario.getEmail());
+            statement.setString(5, usuario.getSenha());
+            statement.setString(6, usuario.getCelular());
+            int linhasInseridas = statement.executeUpdate();
+            statement.close();
+            if (linhasInseridas > 0) {
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            Log.e("AuthService", "Erro ao cadastrar: " + ex.getMessage());
+            return false;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkIfExists(String columnName, String value) {
+        try {
+            PreparedStatement statementCheck = DatabaseManager.getConnection().prepareStatement("SELECT COUNT(*) FROM Usuario WHERE " + columnName + " = ?");
+            statementCheck.setString(1, value);
+            ResultSet rs = statementCheck.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            statementCheck.close();
+            return count > 0;
+        } catch (Exception e) {
+            Log.e(TAG, "Erro ao checar se o valor existe no banco de dados: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
