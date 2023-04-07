@@ -3,6 +3,7 @@ package com.mobile.pacifier.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText editEmail;
     private TextInputEditText editSenha;
+    private TextView textCadastrar;
 
     private AuthService authService;
 
@@ -26,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         editEmail = findViewById(R.id.editEmail);
         editSenha = findViewById(R.id.editSenha);
+        textCadastrar = findViewById(R.id.textCadastrar);
 
         authService = new AuthService();
 
@@ -38,14 +41,31 @@ public class LoginActivity extends AppCompatActivity {
 
         Usuario usuario = new Usuario(email, senha);
 
-        if (authService.authenticateUsuario(usuario)) {
 
-            Intent intent = new Intent(this, NavigationActivity.class);
-            startActivity(intent);
+        if (!email.isEmpty()) {
+            if (!senha.isEmpty()) {
 
+                if (authService.authenticateUsuario(usuario)) {
+
+                    Intent intent = new Intent(this, NavigationActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Snackbar.make(view, "Email ou Senha incorretos!", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
+            } else {
+                editSenha.setError("Campo obrigatório!");
+            }
         } else {
-            Snackbar.make(view, "Email ou Senha incorretos!", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            editEmail.setError("Campo obrigatório!");
         }
     }
+
+    public void redirectCadastro(View view) {
+        Intent intent = new Intent(this, CadastroActivity.class);
+        startActivity(intent);
+    }
+
 }
