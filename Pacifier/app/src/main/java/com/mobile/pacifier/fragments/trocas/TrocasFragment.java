@@ -11,11 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.adapters.AdapterTroca;
+import com.mobile.pacifier.model.Troca;
+import com.mobile.pacifier.services.TrocaService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TrocasFragment extends Fragment {
 
     private RecyclerView recyclerTroca;
+    TrocaService trocaService;
+    List<Troca> trocas = new ArrayList<>();
 
     public TrocasFragment() {
 
@@ -28,12 +35,16 @@ public class TrocasFragment extends Fragment {
 
         recyclerTroca = view.findViewById(R.id.recyclerTroca);
 
+        // Lista de trocas
+        trocaService = new TrocaService();
+        trocas = trocaService.listarTrocas();
+
         // Define o layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerTroca.setLayoutManager(layoutManager);
 
         // Define o adapter
-        AdapterTroca adapterTroca = new AdapterTroca();
+        AdapterTroca adapterTroca = new AdapterTroca(trocas);
         recyclerTroca.setAdapter(adapterTroca);
 
         return view;

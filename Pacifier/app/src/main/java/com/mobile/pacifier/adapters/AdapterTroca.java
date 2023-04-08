@@ -10,8 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.model.Troca;
+
+import java.util.List;
 
 public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolderTroca> {
+
+    private List<Troca> listTrocas;
+
+    public AdapterTroca(List<Troca> trocas) {
+        this.listTrocas = trocas;
+    }
 
     @NonNull
     @Override
@@ -26,16 +35,17 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolderTroca holder, int position) {
 
+        Troca troca = listTrocas.get(position);
         holder.textStatusRemetente.setText("AGUARDANDO ENVIO");
         holder.textStatusDestinatario.setText("TRANSPORTADORA");
-        holder.textNomeTroca.setText("GTA V semi-novo 3 meses de uso");
+        holder.textNomeTroca.setText(troca.getNome_troca());
         holder.imageTroca.setImageResource(R.drawable.imagem3);
 
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return listTrocas.size();
     }
 
     public class MyViewHolderTroca extends RecyclerView.ViewHolder {
