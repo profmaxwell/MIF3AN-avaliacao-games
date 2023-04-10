@@ -17,7 +17,9 @@ public class TrocaService {
         List<Troca> trocas = new ArrayList<>();
 
         try {
-            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca WHERE cpf_usuario=" + cpf);
+            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca WHERE cpf_usuario=?");
+            ps.setLong(1, cpf);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {

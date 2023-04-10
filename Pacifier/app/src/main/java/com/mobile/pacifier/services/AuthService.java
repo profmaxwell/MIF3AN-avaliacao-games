@@ -70,4 +70,27 @@ public class AuthService {
         }
     }
 
+    public Long findByEmailAndSenha(String email, String senha) {
+
+        Long cpf = null;
+
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM usuario WHERE email=? AND senha=?");
+            statement.setString(1, email);
+            statement.setString(2, senha);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                cpf = rs.getLong("cpf");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return cpf;
+    }
+
 }

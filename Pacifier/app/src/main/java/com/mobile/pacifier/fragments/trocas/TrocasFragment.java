@@ -1,5 +1,6 @@
 package com.mobile.pacifier.fragments.trocas;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,8 +24,10 @@ public class TrocasFragment extends Fragment {
 
     private RecyclerView recyclerTroca;
     private TrocaService trocaService;
+
     private List<Troca> trocas = new ArrayList<>();
-    private Long cpf = 89854665412L;
+    Long cpf = null;
+    private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     public TrocasFragment() {
 
@@ -36,6 +39,12 @@ public class TrocasFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trocas, container, false);
 
         recyclerTroca = view.findViewById(R.id.recyclerTroca);
+
+        // Recuperar usuario
+        SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
+        if (preferences.contains("cpfUsuarioLogado")) {
+            cpf = preferences.getLong("cpfUsuarioLogado", 0);
+        }
 
         // Lista de trocas
         trocaService = new TrocaService();

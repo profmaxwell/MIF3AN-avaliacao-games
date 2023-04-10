@@ -1,6 +1,7 @@
 package com.mobile.pacifier.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textCadastrar;
 
     private AuthService authService;
+    private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (authService.authenticateUsuario(usuario)) {
 
+                    Long cpfUsuario = authService.findByEmailAndSenha(email, senha);
+                    salvarCpfUsuario(cpfUsuario);
+
                     Intent intent = new Intent(this, NavigationActivity.class);
                     startActivity(intent);
 
@@ -61,6 +66,14 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             editEmail.setError("Campo obrigatório!");
         }
+    }
+
+    public void salvarCpfUsuario(Long cpf) {
+        SharedPreferences preferences = getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putLong("cpfUsuarioLogado", cpf);
+        editor.commit();
     }
 
     public void redirectCadastro(View view) {
