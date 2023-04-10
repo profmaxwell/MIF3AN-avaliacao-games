@@ -38,7 +38,7 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
         Troca troca = listTrocas.get(position);
         holder.textStatusRemetente.setText("AGUARDANDO ENVIO");
         holder.textStatusDestinatario.setText("TRANSPORTADORA");
-        holder.textNomeTroca.setText(troca.getNome_troca());
+        holder.textNomeTroca.setText(troca.getNomeTroca());
         holder.imageTroca.setImageResource(R.drawable.imagem3);
 
     }

@@ -13,21 +13,22 @@ public class TrocaService {
 
     private static final String TAG = "TrocaService";
 
-    public List<Troca> listarTrocas() {
+    public List<Troca> listarTrocas(Long cpf) {
         List<Troca> trocas = new ArrayList<>();
 
         try {
-            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca");
+            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca WHERE cpf_usuario=" + cpf);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Troca troca = new Troca(rs.getLong("cod_troca"),
-                        rs.getString("nome_troca"),
-                        rs.getString("desc_troca"),
-                        rs.getBoolean("status_troca"),
-                        rs.getObject("cod_imagem"),
-                        rs.getObject("cod_cad_produto"),
-                        rs.getObject("cpf_usuario"));
+                Troca troca = new Troca();
+                troca.setCodTroca(rs.getLong("cod_troca"));
+                troca.setNomeTroca(rs.getString("nome_troca"));
+                troca.setDescTroca(rs.getString("desc_troca"));
+                troca.setStatusTroca(rs.getBoolean("status_troca"));
+                //troca.setCod_imagem(rs.getObject("cod_imagem")),
+                //troca.setCod_cad_produto(rs.getObject("cod_cad_produto")),
+                //troca.setCpf_usuario(rs.getObject("cpf_usuario"));
                 trocas.add(troca);
             }
         } catch (SQLException e) {
