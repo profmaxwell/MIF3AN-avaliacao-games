@@ -10,8 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.model.Anuncio;
+
+import java.util.List;
 
 public class AdapterCompra extends RecyclerView.Adapter<AdapterCompra.MyViewHolderCompra> {
+
+    private List<Anuncio> listAnuncios;
+
+    public AdapterCompra(List<Anuncio> anuncios) {
+        this.listAnuncios = anuncios;
+    }
 
     @NonNull
     @Override
@@ -26,8 +35,9 @@ public class AdapterCompra extends RecyclerView.Adapter<AdapterCompra.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolderCompra holder, int position) {
 
-        holder.textNomeAnuncio.setText("Outlast 2");
-        holder.textValorCompra.setText("25,65");
+        Anuncio anuncio = listAnuncios.get(position);
+        holder.textNomeAnuncio.setText(anuncio.getNomeAnuncio());
+        holder.textValorCompra.setText(anuncio.getValorAnuncio().toString());
         holder.textStatus.setText("ENVIADO PARA TRANSPORTADORA");
         holder.imageAnuncio.setImageResource(R.drawable.imagem2);
 
@@ -35,7 +45,7 @@ public class AdapterCompra extends RecyclerView.Adapter<AdapterCompra.MyViewHold
 
     @Override
     public int getItemCount() {
-        return 10;
+        return listAnuncios.size();
     }
 
     public class MyViewHolderCompra extends RecyclerView.ViewHolder {

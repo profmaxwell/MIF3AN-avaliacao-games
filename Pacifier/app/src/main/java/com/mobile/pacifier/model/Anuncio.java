@@ -9,11 +9,12 @@ public class Anuncio {
     private Integer quantAnuncio;
     private Boolean statusAnuncio;
     private String generoAnuncio;
+    private Boolean statusPedido;
 
     public Anuncio() {
     }
 
-    public Anuncio(Long codAnuncio, String nomeAnuncio, String descAnuncio, Double valorAnuncio, Integer quantAnuncio, Boolean statusAnuncio, String generoAnuncio) {
+    public Anuncio(Long codAnuncio, String nomeAnuncio, String descAnuncio, Double valorAnuncio, Integer quantAnuncio, Boolean statusAnuncio, String generoAnuncio, Boolean statusPedido) {
         this.codAnuncio = codAnuncio;
         this.nomeAnuncio = nomeAnuncio;
         this.descAnuncio = descAnuncio;
@@ -21,6 +22,7 @@ public class Anuncio {
         this.quantAnuncio = quantAnuncio;
         this.statusAnuncio = statusAnuncio;
         this.generoAnuncio = generoAnuncio;
+        this.statusPedido = statusPedido;
     }
 
     public Long getCodAnuncio() {
@@ -77,5 +79,13 @@ public class Anuncio {
 
     public void setGeneroAnuncio(String generoAnuncio) {
         this.generoAnuncio = generoAnuncio;
+    }
+
+    public Boolean getStatusPedido() {
+        return statusPedido;
+    }
+
+    public void setStatusPedido(Boolean statusPedido) {
+        this.statusPedido = statusPedido;
     }
 }

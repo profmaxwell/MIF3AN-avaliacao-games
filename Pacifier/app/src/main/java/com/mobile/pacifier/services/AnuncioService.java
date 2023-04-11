@@ -40,8 +40,35 @@ public class AnuncioService {
             throw new RuntimeException(e);
         }
 
-
         return anuncios;
     }
 
+    public Anuncio listarAnuncioPorCodAnuncio(Long codAnuncio) {
+        Anuncio anuncio = null;
+
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM anuncio WHERE cod_anuncio=?");
+            statement.setLong(1, codAnuncio);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                anuncio = new Anuncio();
+                anuncio.setCodAnuncio(rs.getLong("cod_anuncio"));
+                anuncio.setNomeAnuncio(rs.getString("nome_anuncio"));
+                anuncio.setDescAnuncio(rs.getString("desc_anuncio"));
+                anuncio.setValorAnuncio(rs.getDouble("valor_anuncio"));
+                anuncio.setQuantAnuncio(rs.getInt("quant_anuncio"));
+                anuncio.setStatusAnuncio(rs.getBoolean("status_anuncio"));
+                anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return anuncio;
+    }
 }
