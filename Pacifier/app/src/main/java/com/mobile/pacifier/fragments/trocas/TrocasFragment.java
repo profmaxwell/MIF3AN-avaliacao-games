@@ -2,7 +2,6 @@ package com.mobile.pacifier.fragments.trocas;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,8 @@ public class TrocasFragment extends Fragment {
     private RecyclerView recyclerTroca;
     private TrocaService trocaService;
 
-    private List<Troca> trocas = new ArrayList<>();
     Long cpf = null;
+    private List<Troca> trocas = new ArrayList<>();
     private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     public TrocasFragment() {
@@ -57,18 +56,6 @@ public class TrocasFragment extends Fragment {
         // Define o adapter
         AdapterTroca adapterTroca = new AdapterTroca(trocas);
         recyclerTroca.setAdapter(adapterTroca);
-
-        for (Troca t : trocas) {
-            if (t != null) {
-                if (t.getNomeTroca() != null) {
-                    Log.d("TROCA: ", t.getNomeTroca());
-                } else {
-                    Log.d("TROCA NOME: ", "Valor NULO");
-                }
-            } else {
-                Log.d("TROCA OBJETO: ", "Valor NULO");
-            }
-        }
 
         return view;
     }
