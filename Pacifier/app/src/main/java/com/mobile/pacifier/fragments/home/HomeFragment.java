@@ -94,8 +94,8 @@ public class HomeFragment extends Fragment {
 
         for (ItemPedido ip : itensPedidos) {
             Anuncio anuncio = new Anuncio();
-            anuncio = anuncioService.listarAnuncioPorCodAnuncio(ip.getCodAnuncio());
-            anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
+            anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
+            //anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
             anuncio.setStatusPedido(ip.getStatusPedido());
             listAnuncios.add(anuncio);
         }
