@@ -93,4 +93,25 @@ public class AuthService {
         return cpf;
     }
 
+    public String nomeVendedorPorCpf(Long cpf) {
+        String nomeVendedor = null;
+
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT nome FROM usuario WHERE cpf=?");
+            statement.setLong(1, cpf);
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                nomeVendedor = rs.getString("nome");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return nomeVendedor;
+    }
 }

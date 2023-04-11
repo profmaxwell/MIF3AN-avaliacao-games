@@ -61,6 +61,7 @@ public class AnuncioService {
                 anuncio.setQuantAnuncio(rs.getInt("quant_anuncio"));
                 anuncio.setStatusAnuncio(rs.getBoolean("status_anuncio"));
                 anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
+                anuncio.setCpfUsuario(rs.getLong("cpf_usuario"));
             }
 
         } catch (SQLException e) {

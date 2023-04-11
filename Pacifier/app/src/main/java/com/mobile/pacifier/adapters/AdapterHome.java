@@ -10,8 +10,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.model.Anuncio;
+
+import java.util.List;
 
 public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> {
+
+    private List<Anuncio> listAnuncio;
+
+    public AdapterHome(List<Anuncio> anuncios) {
+        this.listAnuncio = anuncios;
+    }
 
     @NonNull
     @Override
@@ -26,16 +35,17 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.textNome.setText("GTA V");
-        holder.textVendedor.setText("Abner");
-        holder.textValor.setText("50.65");
+        Anuncio anuncio = listAnuncio.get(position);
+        holder.textNome.setText(anuncio.getNomeAnuncio());
+        holder.textVendedor.setText(anuncio.getNomeVendedor());
+        holder.textValor.setText(anuncio.getValorAnuncio().toString());
         holder.imageAvaliar.setImageResource(R.drawable.imagem1);
 
     }
 
     @Override
     public int getItemCount() {
-        return 6;
+        return listAnuncio.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
