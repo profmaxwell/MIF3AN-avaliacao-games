@@ -1,7 +1,6 @@
 package com.mobile.pacifier.fragments.home;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -106,12 +105,23 @@ public class HomeFragment extends Fragment {
         protected List<Anuncio> doInBackground(Void... voids) {
             List<Anuncio> listAnuncios = new ArrayList<>();
 
-            try {
-                anuncios = listarAnuncioDoItemPedido();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
+            anuncios = listAnuncios;
+
+            pedidos = pedidoService.listarPedido(cpf);
+
+            for (Pedido p : pedidos) {
+                List<ItemPedido> itens = new ArrayList<>();
+                try {
+                    itens = pedidoService.listarItemPedido(p.getCodPedido());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                for (ItemPedido ip : itens) {
+                    ip.setStatusPedido(p.getStatusPedido());
+                    itensPedidos.addAll(itens);
+                }
             }
 
             for (ItemPedido ip : itensPedidos) {
@@ -153,6 +163,14 @@ public class HomeFragment extends Fragment {
                 ip.setStatusPedido(p.getStatusPedido());
                 itensPedidos.addAll(itens);
             }
+        }
+
+        for (ItemPedido ip : itensPedidos) {
+            Anuncio anuncio = new Anuncio();
+            anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
+            //anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
+            anuncio.setStatusPedido(ip.getStatusPedido());
+            listAnuncios.add(anuncio);
         }
 
         return listAnuncios;
