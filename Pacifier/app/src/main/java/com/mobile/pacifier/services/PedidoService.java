@@ -44,6 +44,36 @@ public class PedidoService {
         return pedidos;
     }
 
+    public List<Pedido> listarPedidoWhereStatus(Long cpf) {
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM pedido WHERE cod_usuario=? AND status_pedido='ENTREGUE'");
+            statement.setLong(1, cpf);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Pedido pedido = new Pedido();
+                pedido.setCodPedido(rs.getLong("cod_pedido"));
+                pedido.setDataPedido(rs.getString("data_pedido"));
+                pedido.setStatusPedido(rs.getString("status_pedido"));
+                pedidos.add(pedido);
+            }
+
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return pedidos;
+    }
+
     public List<ItemPedido> listarItemPedido(Long codPedido) throws SQLException, ClassNotFoundException {
         List<ItemPedido> itensPedidos = new ArrayList<>();
 

@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
 
             anuncios = listAnuncios;
 
-            pedidos = pedidoService.listarPedido(cpf);
+            pedidos = pedidoService.listarPedidoWhereStatus(cpf);
 
             for (Pedido p : pedidos) {
                 List<ItemPedido> itens = new ArrayList<>();
@@ -127,7 +127,6 @@ public class HomeFragment extends Fragment {
             for (ItemPedido ip : itensPedidos) {
                 Anuncio anuncio = new Anuncio();
                 anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
-                //anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
                 anuncio.setStatusPedido(ip.getStatusPedido());
                 listAnuncios.add(anuncio);
             }
@@ -154,16 +153,18 @@ public class HomeFragment extends Fragment {
     public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
         List<Anuncio> listAnuncios = new ArrayList<>();
 
-        pedidos = pedidoService.listarPedido(cpf);
+        pedidos = pedidoService.listarPedidoWhereStatus(cpf);
+        List<ItemPedido> itensTemp = new ArrayList<>();
 
         for (Pedido p : pedidos) {
-            List<ItemPedido> itens = new ArrayList<>();
-            itens = pedidoService.listarItemPedido(p.getCodPedido());
+            List<ItemPedido> itens = pedidoService.listarItemPedido(p.getCodPedido());
             for (ItemPedido ip : itens) {
                 ip.setStatusPedido(p.getStatusPedido());
-                itensPedidos.addAll(itens);
+                itensTemp.add(ip);
             }
         }
+
+        itensPedidos = itensTemp;
 
         for (ItemPedido ip : itensPedidos) {
             Anuncio anuncio = new Anuncio();
