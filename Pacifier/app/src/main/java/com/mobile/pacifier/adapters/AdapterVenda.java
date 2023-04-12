@@ -38,7 +38,7 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.MyViewHolder
         Anuncio anuncio = listAnuncios.get(position);
         holder.imageVenda.setImageResource(R.drawable.imagem4);
         holder.textNomeVenda.setText(anuncio.getNomeAnuncio());
-        holder.textQuantVenda.setText("1.023");
+        holder.textQuantVenda.setText(anuncio.getQuantVendida().toString());
         holder.textValorVenda.setText(anuncio.getValorAnuncio().toString());
 
     }

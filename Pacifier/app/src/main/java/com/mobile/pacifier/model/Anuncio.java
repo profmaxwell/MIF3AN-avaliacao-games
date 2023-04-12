@@ -10,14 +10,15 @@ public class Anuncio {
     private Boolean statusAnuncio;
     private String generoAnuncio;
     private Long cpfUsuario;
+    private Integer quantVendida;
 
-    private Boolean statusPedido;
+    private String statusPedido;
     private String nomeVendedor;
 
     public Anuncio() {
     }
 
-    public Anuncio(Long codAnuncio, String nomeAnuncio, String descAnuncio, Double valorAnuncio, Integer quantAnuncio, Boolean statusAnuncio, String generoAnuncio, Long cpfUsuario, Boolean statusPedido, String nomeVendedor) {
+    public Anuncio(Long codAnuncio, String nomeAnuncio, String descAnuncio, Double valorAnuncio, Integer quantAnuncio, Boolean statusAnuncio, String generoAnuncio, Long cpfUsuario, String statusPedido, String nomeVendedor) {
         this.codAnuncio = codAnuncio;
         this.nomeAnuncio = nomeAnuncio;
         this.descAnuncio = descAnuncio;
@@ -94,11 +95,19 @@ public class Anuncio {
         this.cpfUsuario = cpfUsuario;
     }
 
-    public Boolean getStatusPedido() {
+    public Integer getQuantVendida() {
+        return quantVendida;
+    }
+
+    public void setQuantVendida(Integer quantVendida) {
+        this.quantVendida = quantVendida;
+    }
+
+    public String getStatusPedido() {
         return statusPedido;
     }
 
-    public void setStatusPedido(Boolean statusPedido) {
+    public void setStatusPedido(String statusPedido) {
         this.statusPedido = statusPedido;
     }
 

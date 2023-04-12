@@ -31,6 +31,7 @@ public class AnuncioService {
                 anuncio.setQuantAnuncio(rs.getInt("quant_anuncio"));
                 anuncio.setStatusAnuncio(rs.getBoolean("status_anuncio"));
                 anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
+                anuncio.setQuantVendida(rs.getInt("quant_vendida"));
                 anuncios.add(anuncio);
             }
 
@@ -66,6 +67,7 @@ public class AnuncioService {
                 anuncio.setStatusAnuncio(rs.getBoolean("status_anuncio"));
                 anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
                 anuncio.setCpfUsuario(rs.getLong("cpf_usuario"));
+                anuncio.setQuantVendida(rs.getInt("quant_vendida"));
             }
 
             rs.close();
@@ -100,6 +102,7 @@ public class AnuncioService {
                 anuncio.setStatusAnuncio(rs.getBoolean("status_anuncio"));
                 anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
                 anuncio.setCpfUsuario(rs.getLong("cpf_usuario"));
+                anuncio.setQuantVendida(rs.getInt("quant_vendida"));
 
                 PreparedStatement statement2 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM usuario WHERE cpf=" + anuncio.getCpfUsuario());
                 ResultSet rs2 = statement2.executeQuery();

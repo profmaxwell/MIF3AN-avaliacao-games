@@ -27,7 +27,7 @@ public class PedidoService {
                 Pedido pedido = new Pedido();
                 pedido.setCodPedido(rs.getLong("cod_pedido"));
                 pedido.setDataPedido(rs.getString("data_pedido"));
-                pedido.setStatusPedido(rs.getBoolean("status_pedido"));
+                pedido.setStatusPedido(rs.getString("status_pedido"));
                 pedidos.add(pedido);
             }
 

@@ -4,12 +4,12 @@ public class Pedido {
 
     private Long codPedido;
     private String dataPedido;
-    private Boolean statusPedido;
+    private String statusPedido;
 
     public Pedido() {
     }
 
-    public Pedido(Long codPedido, String dataPedido, Boolean statusPedido) {
+    public Pedido(Long codPedido, String dataPedido, String statusPedido) {
         this.codPedido = codPedido;
         this.dataPedido = dataPedido;
         this.statusPedido = statusPedido;
@@ -31,11 +31,11 @@ public class Pedido {
         this.dataPedido = dataPedido;
     }
 
-    public Boolean getStatusPedido() {
+    public String getStatusPedido() {
         return statusPedido;
     }
 
-    public void setStatusPedido(Boolean statusPedido) {
+    public void setStatusPedido(String statusPedido) {
         this.statusPedido = statusPedido;
     }
 }

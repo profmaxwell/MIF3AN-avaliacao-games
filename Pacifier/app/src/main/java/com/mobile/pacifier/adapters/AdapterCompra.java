@@ -38,7 +38,7 @@ public class AdapterCompra extends RecyclerView.Adapter<AdapterCompra.MyViewHold
         Anuncio anuncio = listAnuncios.get(position);
         holder.textNomeAnuncio.setText(anuncio.getNomeAnuncio());
         holder.textValorCompra.setText(anuncio.getValorAnuncio().toString());
-        holder.textStatus.setText("ENVIADO PARA TRANSPORTADORA");
+        holder.textStatus.setText(anuncio.getStatusPedido());
         holder.imageAnuncio.setImageResource(R.drawable.imagem2);
 
     }

@@ -6,12 +6,12 @@ public class ItemPedido {
     private Long codAnuncio;
     private Integer quantidade;
     private Double preco;
-    private Boolean statusPedido;
+    private String statusPedido;
 
     public ItemPedido() {
     }
 
-    public ItemPedido(Long codPedido, Long codAnuncio, Integer quantidade, Double preco, Boolean statusPedido) {
+    public ItemPedido(Long codPedido, Long codAnuncio, Integer quantidade, Double preco, String statusPedido) {
         this.codPedido = codPedido;
         this.codAnuncio = codAnuncio;
         this.quantidade = quantidade;
@@ -51,11 +51,11 @@ public class ItemPedido {
         this.preco = preco;
     }
 
-    public Boolean getStatusPedido() {
+    public String getStatusPedido() {
         return statusPedido;
     }
 
-    public void setStatusPedido(Boolean statusPedido) {
+    public void setStatusPedido(String statusPedido) {
         this.statusPedido = statusPedido;
     }
 }
