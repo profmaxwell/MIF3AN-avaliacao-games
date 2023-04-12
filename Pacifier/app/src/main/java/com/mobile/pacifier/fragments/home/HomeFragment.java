@@ -1,6 +1,9 @@
 package com.mobile.pacifier.fragments.home;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +39,8 @@ public class HomeFragment extends Fragment {
     private List<ItemPedido> itensPedidos = new ArrayList<>();
     private List<Anuncio> anuncios = new ArrayList<>();
 
+    private boolean primeiraVez = true;
+
     private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     public HomeFragment() {
@@ -48,34 +53,95 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerHome = view.findViewById(R.id.recyclerHome);
+
+        // Define layout
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerHome.setLayoutManager(layoutManager);
+
         pedidoService = new PedidoService();
         anuncioService = new AnuncioService();
         authService = new AuthService();
 
         // Pega o cpf do usuario
         SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
+        primeiraVez = preferences.getBoolean("primeiraVez", true);
         if (preferences.contains("cpfUsuarioLogado")) {
             cpf = preferences.getLong("cpfUsuarioLogado", 0);
         }
 
-        // Pega a lista de anuncios
-        try {
-            anuncios = listarAnuncioDoItemPedido();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+
+        if (primeiraVez) {
+            LoadDataTask loadDataTask = new LoadDataTask();
+            loadDataTask.execute();
+        } else {
+            try {
+                anuncios = listarAnuncioDoItemPedido();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+
+            AdapterHome adapterHome = new AdapterHome(anuncios);
+            recyclerHome.setAdapter(adapterHome);
         }
 
-        // Define layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerHome.setLayoutManager(layoutManager);
-
-        // Define adapter
-        AdapterHome adapterHome = new AdapterHome(anuncios);
-        recyclerHome.setAdapter(adapterHome);
-
         return view;
+    }
+
+    private class LoadDataTask extends AsyncTask<Void, Void, List<Anuncio>> {
+
+        private ProgressDialog progressDialog;
+        private Dialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            // Mostra o progresso na tela
+            //progressDialog = ProgressDialog.show(getActivity(), "", "Carregando...");
+            dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.tela_carregamento);
+            dialog.show();
+        }
+
+        @Override
+        protected List<Anuncio> doInBackground(Void... voids) {
+            List<Anuncio> listAnuncios = new ArrayList<>();
+
+            try {
+                anuncios = listarAnuncioDoItemPedido();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+
+            for (ItemPedido ip : itensPedidos) {
+                Anuncio anuncio = new Anuncio();
+                anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
+                //anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
+                anuncio.setStatusPedido(ip.getStatusPedido());
+                listAnuncios.add(anuncio);
+            }
+
+            return listAnuncios;
+        }
+
+        @Override
+        protected void onPostExecute(List<Anuncio> result) {
+            // Esconde o progresso da tela
+            //progressDialog.dismiss();
+            dialog.dismiss();
+
+            // Define adapter com os dados carregados
+            AdapterHome adapterHome = new AdapterHome(result);
+            recyclerHome.setAdapter(adapterHome);
+
+            // Atualiza o valor do SharedPreferences
+            SharedPreferences.Editor editor = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0).edit();
+            editor.putBoolean("primeiraVez", false);
+            editor.apply();
+        }
     }
 
     public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
@@ -90,14 +156,6 @@ public class HomeFragment extends Fragment {
                 ip.setStatusPedido(p.getStatusPedido());
                 itensPedidos.addAll(itens);
             }
-        }
-
-        for (ItemPedido ip : itensPedidos) {
-            Anuncio anuncio = new Anuncio();
-            anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
-            //anuncio.setNomeVendedor(authService.nomeVendedorPorCpf(anuncio.getCpfUsuario()));
-            anuncio.setStatusPedido(ip.getStatusPedido());
-            listAnuncios.add(anuncio);
         }
 
         return listAnuncios;
