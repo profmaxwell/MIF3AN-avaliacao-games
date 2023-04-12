@@ -31,6 +31,10 @@ public class PedidoService {
                 pedidos.add(pedido);
             }
 
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -56,6 +60,10 @@ public class PedidoService {
             itemPedido.setCodAnuncio(rs.getLong("cod_anuncio"));
             itensPedidos.add(itemPedido);
         }
+
+        rs.close();
+        statement.close();
+        DatabaseManager.getConnection().close();
 
         return itensPedidos;
     }

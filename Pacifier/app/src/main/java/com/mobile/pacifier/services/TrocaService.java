@@ -33,6 +33,11 @@ public class TrocaService {
                 //troca.setCpf_usuario(rs.getObject("cpf_usuario"));
                 trocas.add(troca);
             }
+
+            rs.close();
+            ps.close();
+            DatabaseManager.getConnection().close();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

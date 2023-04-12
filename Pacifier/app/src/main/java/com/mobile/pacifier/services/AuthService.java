@@ -26,6 +26,7 @@ public class AuthService {
             } else {
                 return false;
             }
+
         } catch (SQLException | ClassNotFoundException e) {
             Log.e(TAG, "Error authenticating user: " + e.getMessage());
             return false;
@@ -47,6 +48,7 @@ public class AuthService {
                 return true;
             }
             return false;
+
         } catch (SQLException ex) {
             Log.e("AuthService", "Erro ao cadastrar: " + ex.getMessage());
             return false;
@@ -62,7 +64,11 @@ public class AuthService {
             ResultSet rs = statementCheck.executeQuery();
             rs.next();
             int count = rs.getInt(1);
+
+            rs.close();
             statementCheck.close();
+            DatabaseManager.getConnection().close();
+
             return count > 0;
         } catch (Exception e) {
             Log.e(TAG, "Erro ao checar se o valor existe no banco de dados: " + e.getMessage());
@@ -83,6 +89,10 @@ public class AuthService {
             if (rs.next()) {
                 cpf = rs.getLong("cpf");
             }
+
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -105,6 +115,10 @@ public class AuthService {
             if (rs.next()) {
                 nomeVendedor = rs.getString("nome");
             }
+
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

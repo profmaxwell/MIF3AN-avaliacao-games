@@ -34,6 +34,10 @@ public class AnuncioService {
                 anuncios.add(anuncio);
             }
 
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -63,6 +67,10 @@ public class AnuncioService {
                 anuncio.setGeneroAnuncio(rs.getString("genero_anuncio"));
                 anuncio.setCpfUsuario(rs.getLong("cpf_usuario"));
             }
+
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -95,10 +103,18 @@ public class AnuncioService {
 
                 PreparedStatement statement2 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM usuario WHERE cpf=" + anuncio.getCpfUsuario());
                 ResultSet rs2 = statement2.executeQuery();
-                if(rs2.next()) {
+                if (rs2.next()) {
                     anuncio.setNomeVendedor(rs2.getString("nome"));
                 }
+
+                rs2.close();
+                statement2.close();
+                DatabaseManager.getConnection().close();
             }
+
+            rs.close();
+            statement.close();
+            DatabaseManager.getConnection().close();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
