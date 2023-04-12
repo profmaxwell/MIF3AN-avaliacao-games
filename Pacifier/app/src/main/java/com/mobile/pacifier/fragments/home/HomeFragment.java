@@ -1,5 +1,6 @@
 package com.mobile.pacifier.fragments.home;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.adapters.AdapterHome;
 import com.mobile.pacifier.model.Anuncio;
@@ -46,12 +48,14 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         recyclerHome = view.findViewById(R.id.recyclerHome);
+
 
         // Define layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -130,6 +134,15 @@ public class HomeFragment extends Fragment {
                 anuncio.setStatusPedido(ip.getStatusPedido());
                 listAnuncios.add(anuncio);
             }
+
+            SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
+
+            // Serializa a lista de anuncios em uma string JSON
+            Gson gson = new Gson();
+            String anunciosJson = gson.toJson(listAnuncios);
+
+            // Salva a string JSON em SharedPreferences
+            preferences.edit().putString("listAnuncios", anunciosJson).apply();
 
             return listAnuncios;
         }

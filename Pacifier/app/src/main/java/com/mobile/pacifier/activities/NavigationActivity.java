@@ -1,8 +1,10 @@
 package com.mobile.pacifier.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,6 +20,7 @@ import com.mobile.pacifier.databinding.ActivityNavigationBinding;
 
 public class NavigationActivity extends AppCompatActivity {
 
+    private Button buttonAvaliar;
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityNavigationBinding binding;
 
@@ -47,6 +50,9 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        buttonAvaliar = findViewById(R.id.buttonAvaliar);
+
     }
 
     @Override
@@ -61,5 +67,10 @@ public class NavigationActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void redirectAvaliar(View view) {
+        Intent intent = new Intent(NavigationActivity.this, ComentarActivity.class);
+        startActivity(intent);
     }
 }

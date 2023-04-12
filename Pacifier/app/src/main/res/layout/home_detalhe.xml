@@ -59,24 +59,16 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonComentar"
-                style="?attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_comentario_cinza_24"
-                android:text="comentar"
-                android:textStyle="bold" />
-
-            <Button
                 android:id="@+id/buttonAvaliar"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_estrela_cinza_24"
-                android:text="avaliar"
+                android:drawableLeft="@drawable/ic_comentario_cinza_24"
+                android:onClick="redirectAvaliar"
+                android:text="Avalie este produto"
                 android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 
