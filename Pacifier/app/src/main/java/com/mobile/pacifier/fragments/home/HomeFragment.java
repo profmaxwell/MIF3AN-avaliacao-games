@@ -92,13 +92,11 @@ public class HomeFragment extends Fragment {
 
     private class LoadDataTask extends AsyncTask<Void, Void, List<Anuncio>> {
 
-        private ProgressDialog progressDialog;
         private Dialog dialog;
 
         @Override
         protected void onPreExecute() {
             // Mostra o progresso na tela
-            //progressDialog = ProgressDialog.show(getActivity(), "", "Carregando...");
             dialog = new Dialog(getActivity());
             dialog.setContentView(R.layout.tela_carregamento);
             dialog.show();
@@ -130,7 +128,6 @@ public class HomeFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Anuncio> result) {
             // Esconde o progresso da tela
-            //progressDialog.dismiss();
             dialog.dismiss();
 
             // Define adapter com os dados carregados
