@@ -18,7 +18,6 @@ import com.mobile.pacifier.model.Pedido;
 import com.mobile.pacifier.services.AnuncioService;
 import com.mobile.pacifier.services.PedidoService;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,13 +57,7 @@ public class ComprasFragment extends Fragment {
         }
 
         // Pega a lista de anuncios
-        try {
-            anuncios = listarAnuncioDoItemPedido();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        anuncios = anuncioService.listarAnuncioByPedido(cpf);
 
         // Define layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -78,7 +71,7 @@ public class ComprasFragment extends Fragment {
         return view;
     }
 
-    public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
+    /*public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
         List<Anuncio> listAnuncios = new ArrayList<>();
 
         pedidos = pedidoService.listarPedido(cpf);
@@ -100,6 +93,6 @@ public class ComprasFragment extends Fragment {
         }
 
         return listAnuncios;
-    }
+    }*/
 
 }

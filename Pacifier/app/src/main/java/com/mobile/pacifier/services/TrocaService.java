@@ -49,7 +49,7 @@ public class TrocaService {
         return trocas;
     }
 
-    public List<Troca> listarTrocaByPedido(Long cpf) {
+    public List<Troca> listarTrocaByPedidoAntigo(Long cpf) {
         List<Troca> trocas = new ArrayList<>();
 
         try {
@@ -93,6 +93,44 @@ public class TrocaService {
                 DatabaseManager.getConnection().close();
             }
 
+            rs.close();
+            ps.close();
+            DatabaseManager.getConnection().close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return trocas;
+    }
+
+    public List<Troca> listarTrocaByPedido(Long cpf) {
+        List<Troca> trocas = new ArrayList<>();
+
+        try {
+            // Consulta principal
+            String consulta = "SELECT t.cod_troca, t.nome_troca, pt.status_destinatario, pt.status_remetente "
+                    + "FROM pedido_troca pt "
+                    + "INNER JOIN item_pedido_troca ipt ON pt.cod_pedido_troca = ipt.cod_pedido_troca "
+                    + "INNER JOIN troca t ON ipt.cod_troca = t.cod_troca "
+                    + "WHERE pt.cpf_usuario = ?";
+            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(consulta);
+            ps.setLong(1, cpf);
+            ResultSet rs = ps.executeQuery();
+
+            // Loop principal
+            while (rs.next()) {
+                Troca troca = new Troca();
+                troca.setCodTroca(rs.getLong("cod_troca"));
+                troca.setNomeTroca(rs.getString("nome_troca"));
+                troca.setStatusDestinatario(rs.getString("status_destinatario"));
+                troca.setStatusRemetente(rs.getString("status_remetente"));
+                trocas.add(troca);
+            }
+
+            // Fechando as conexões
             rs.close();
             ps.close();
             DatabaseManager.getConnection().close();

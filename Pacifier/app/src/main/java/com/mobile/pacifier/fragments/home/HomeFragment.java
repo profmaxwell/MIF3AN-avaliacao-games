@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.adapters.AdapterHome;
 import com.mobile.pacifier.model.Anuncio;
@@ -23,7 +22,6 @@ import com.mobile.pacifier.services.AnuncioService;
 import com.mobile.pacifier.services.AuthService;
 import com.mobile.pacifier.services.PedidoService;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,14 +75,7 @@ public class HomeFragment extends Fragment {
             LoadDataTask loadDataTask = new LoadDataTask();
             loadDataTask.execute();
         } else {
-            try {
-                anuncios = listarAnuncioDoItemPedido();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
+            anuncios = anuncioService.listarAnuncioWherePedidoStatus(cpf);
 
             AdapterHome adapterHome = new AdapterHome(anuncios);
             recyclerHome.setAdapter(adapterHome);
@@ -107,44 +98,10 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected List<Anuncio> doInBackground(Void... voids) {
-            List<Anuncio> listAnuncios = new ArrayList<>();
 
-            anuncios = listAnuncios;
+            anuncios = anuncioService.listarAnuncioWherePedidoStatus(cpf);
 
-            pedidos = pedidoService.listarPedidoWhereStatus(cpf);
-
-            for (Pedido p : pedidos) {
-                List<ItemPedido> itens = new ArrayList<>();
-                try {
-                    itens = pedidoService.listarItemPedido(p.getCodPedido());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                for (ItemPedido ip : itens) {
-                    ip.setStatusPedido(p.getStatusPedido());
-                    itensPedidos.addAll(itens);
-                }
-            }
-
-            for (ItemPedido ip : itensPedidos) {
-                Anuncio anuncio = new Anuncio();
-                anuncio = anuncioService.listarAnuncioAndNomePorCodAnuncio(ip.getCodAnuncio());
-                anuncio.setStatusPedido(ip.getStatusPedido());
-                listAnuncios.add(anuncio);
-            }
-
-            SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
-
-            // Serializa a lista de anuncios em uma string JSON
-            Gson gson = new Gson();
-            String anunciosJson = gson.toJson(listAnuncios);
-
-            // Salva a string JSON em SharedPreferences
-            preferences.edit().putString("listAnuncios", anunciosJson).apply();
-
-            return listAnuncios;
+            return anuncios;
         }
 
         @Override
@@ -163,7 +120,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
+    /*public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
         List<Anuncio> listAnuncios = new ArrayList<>();
 
         pedidos = pedidoService.listarPedidoWhereStatus(cpf);
@@ -188,5 +145,5 @@ public class HomeFragment extends Fragment {
         }
 
         return listAnuncios;
-    }
+    }*/
 }
