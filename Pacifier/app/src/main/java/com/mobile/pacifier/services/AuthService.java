@@ -42,12 +42,13 @@ public class AuthService {
             statement.setString(4, usuario.getEmail());
             statement.setString(5, usuario.getSenha());
             statement.setString(6, usuario.getCelular());
-            int linhasInseridas = statement.executeUpdate();
+
+            statement.addBatch();
+            statement.executeBatch();
+
             statement.close();
-            if (linhasInseridas > 0) {
-                return true;
-            }
-            return false;
+
+            return true;
 
         } catch (SQLException ex) {
             Log.e("AuthService", "Erro ao cadastrar: " + ex.getMessage());
@@ -64,10 +65,6 @@ public class AuthService {
             ResultSet rs = statementCheck.executeQuery();
             rs.next();
             int count = rs.getInt(1);
-
-            rs.close();
-            statementCheck.close();
-            DatabaseManager.getConnection().close();
 
             return count > 0;
         } catch (Exception e) {
@@ -90,10 +87,6 @@ public class AuthService {
                 cpf = rs.getLong("cpf");
             }
 
-            rs.close();
-            statement.close();
-            DatabaseManager.getConnection().close();
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -101,31 +94,5 @@ public class AuthService {
         }
 
         return cpf;
-    }
-
-    public String nomeVendedorPorCpf(Long cpf) {
-        String nomeVendedor = null;
-
-        try {
-            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT nome FROM usuario WHERE cpf=?");
-            statement.setLong(1, cpf);
-
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                nomeVendedor = rs.getString("nome");
-            }
-
-            rs.close();
-            statement.close();
-            DatabaseManager.getConnection().close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        return nomeVendedor;
     }
 }

@@ -37,12 +37,6 @@ public class CadastroActivity extends AppCompatActivity {
 
     }
 
-
-    public void cadastrar(View view) {
-        Intent intent = new Intent(CadastroActivity.this, NavigationActivity.class);
-        startActivity(intent);
-    }
-
     public void validarCadastroUsuario(View view) {
         String textoNome = editNome.getText().toString();
         String textoSobrenome = editSobrenome.getText().toString();

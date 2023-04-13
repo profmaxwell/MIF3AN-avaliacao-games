@@ -20,14 +20,12 @@ public class ComentarioService {
             statement.setLong(3, comentario.getCodAnuncio());
             statement.setLong(4, comentario.getCpfUsuario());
 
-            int linhasInseridas = statement.executeUpdate();
-            statement.close();
-            DatabaseManager.getConnection().close();
+            statement.addBatch();
+            statement.executeBatch();
 
-            if (linhasInseridas > 0) {
-                return true;
-            }
-            return false;
+            statement.close();
+
+            return true;
 
         } catch (SQLException ex) {
             Log.e("ComentarioService", "Erro ao avaliar: " + ex.getMessage());
