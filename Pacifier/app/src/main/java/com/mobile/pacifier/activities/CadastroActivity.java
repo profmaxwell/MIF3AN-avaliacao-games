@@ -1,9 +1,11 @@
 package com.mobile.pacifier.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +20,11 @@ public class CadastroActivity extends AppCompatActivity {
     private TextInputEditText editNome, editSobrenome, editEmail, editNum, editCpf, editSenha;
     private Button buttonCadastrar;
 
+    private RadioButton radioMasc, radioFem, radioOutros;
+
     private AuthService authService;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,9 @@ public class CadastroActivity extends AppCompatActivity {
         editCpf = findViewById(R.id.editCpf);
         editSenha = findViewById(R.id.editSenha);
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
+        radioMasc = findViewById(R.id.radioMasc);
+        radioFem = findViewById(R.id.radioFem);
+        radioOutros = findViewById(R.id.radioOutros);
 
         authService = new AuthService();
 
@@ -44,6 +52,17 @@ public class CadastroActivity extends AppCompatActivity {
         String textoNum = editNum.getText().toString();
         Long textoCpf = Long.valueOf(editCpf.getText().toString());
         String textoSenha = editSenha.getText().toString();
+        String textoGenero;
+
+        if (radioMasc.isChecked()) {
+            textoGenero = radioMasc.getText().toString();
+        } else if (radioFem.isChecked()) {
+            textoGenero = radioFem.getText().toString();
+        } else if (radioOutros.isChecked()) {
+            textoGenero = radioOutros.getText().toString();
+        } else {
+            textoGenero = "";
+        }
 
         if (!textoNome.isEmpty()) { // Verificar nome
             if (!textoSobrenome.isEmpty()) { // Verificar sobrenome
@@ -62,6 +81,7 @@ public class CadastroActivity extends AppCompatActivity {
                                             usuario.setEmail(textoEmail);
                                             usuario.setCelular(textoNum);
                                             usuario.setSenha(textoSenha);
+                                            usuario.setGenero(textoGenero);
 
                                             authService.cadastrarUsuario(usuario);
 

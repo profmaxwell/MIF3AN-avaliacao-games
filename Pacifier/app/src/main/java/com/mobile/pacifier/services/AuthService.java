@@ -35,13 +35,14 @@ public class AuthService {
 
     public boolean cadastrarUsuario(Usuario usuario) {
         try {
-            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("INSERT INTO usuario (nome, sobrenome, cpf, email, senha, celular) VALUES (?, ?, ?, ?, ?, ?)");
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("INSERT INTO usuario (nome, sobrenome, cpf, email, senha, celular, genero) VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, usuario.getNome());
             statement.setString(2, usuario.getSobrenome());
             statement.setString(3, String.valueOf(usuario.getCpf()));
             statement.setString(4, usuario.getEmail());
             statement.setString(5, usuario.getSenha());
             statement.setString(6, usuario.getCelular());
+            statement.setString(7, usuario.getGenero());
 
             statement.addBatch();
             statement.executeBatch();

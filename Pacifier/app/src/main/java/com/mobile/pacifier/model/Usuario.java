@@ -9,6 +9,8 @@ public class Usuario {
     private String Celular;
     private String Senha;
 
+    private String genero;
+
     public Usuario() {
     }
 
@@ -17,13 +19,14 @@ public class Usuario {
         Senha = senha;
     }
 
-    public Usuario(Long cpf, String nome, String sobrenome, String email, String celular, String senha) {
+    public Usuario(Long cpf, String nome, String sobrenome, String email, String celular, String senha, String genero) {
         Cpf = cpf;
         Nome = nome;
         Sobrenome = sobrenome;
         Email = email;
         Celular = celular;
         Senha = senha;
+        this.genero = genero;
     }
 
     public Long getCpf() {
@@ -72,5 +75,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         Senha = senha;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 }
