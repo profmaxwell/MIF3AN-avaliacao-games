@@ -47,7 +47,7 @@ public class TrocasFragment extends Fragment {
 
         // Lista de trocas
         trocaService = new TrocaService();
-        trocas = trocaService.listarTrocas(cpf);
+        trocas = trocaService.listarTrocaByPedido(cpf);
 
         // Define o layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

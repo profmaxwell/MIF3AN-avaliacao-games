@@ -1,6 +1,8 @@
 package com.mobile.pacifier.services;
 
 import com.mobile.pacifier.config.DatabaseManager;
+import com.mobile.pacifier.model.ItemPedidoTroca;
+import com.mobile.pacifier.model.PedidoTroca;
 import com.mobile.pacifier.model.Troca;
 
 import java.sql.PreparedStatement;
@@ -46,4 +48,62 @@ public class TrocaService {
 
         return trocas;
     }
+
+    public List<Troca> listarTrocaByPedido(Long cpf) {
+        List<Troca> trocas = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = DatabaseManager.getConnection().prepareStatement("SELECT cod_pedido_troca, status_destinatario, status_remetente FROM pedido_troca WHERE cpf_usuario=?");
+            ps.setLong(1, cpf);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                PedidoTroca pedidoTroca = new PedidoTroca();
+                pedidoTroca.setCodPedidoTroca(rs.getLong("cod_pedido_troca"));
+                pedidoTroca.setStatusDestinatario(rs.getString("status_destinatario"));
+                pedidoTroca.setStatusRemetente(rs.getString("status_remetente"));
+
+                PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT cod_troca FROM item_pedido_troca WHERE cod_pedido_troca=" + pedidoTroca.getCodPedidoTroca());
+                ResultSet rs2 = statement.executeQuery();
+
+                while (rs2.next()) {
+                    ItemPedidoTroca itemPedidoTroca = new ItemPedidoTroca();
+                    itemPedidoTroca.setCodTroca(rs2.getLong("cod_troca"));
+
+                    PreparedStatement statement2 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca WHERE cod_troca=" + itemPedidoTroca.getCodTroca());
+                    ResultSet rs3 = statement2.executeQuery();
+                    while (rs3.next()) {
+                        Troca troca = new Troca();
+                        troca.setCodTroca(rs3.getLong("cod_troca"));
+                        troca.setNomeTroca(rs3.getString("nome_troca"));
+                        troca.setStatusDestinatario(pedidoTroca.getStatusDestinatario());
+                        troca.setStatusRemetente(pedidoTroca.getStatusRemetente());
+
+                        trocas.add(troca);
+                    }
+
+                    rs3.close();
+                    statement2.close();
+                    DatabaseManager.getConnection().close();
+                }
+
+                rs2.close();
+                statement.close();
+                DatabaseManager.getConnection().close();
+            }
+
+            rs.close();
+            ps.close();
+            DatabaseManager.getConnection().close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return trocas;
+    }
+
 }

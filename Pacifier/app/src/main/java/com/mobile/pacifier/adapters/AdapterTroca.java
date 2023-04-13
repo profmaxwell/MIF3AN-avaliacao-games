@@ -36,8 +36,8 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolderTroca holder, int position) {
 
         Troca troca = listTrocas.get(position);
-        holder.textStatusRemetente.setText("AGUARDANDO ENVIO");
-        holder.textStatusDestinatario.setText("TRANSPORTADORA");
+        holder.textStatusRemetente.setText(troca.getStatusRemetente());
+        holder.textStatusDestinatario.setText(troca.getStatusDestinatario());
         holder.textNomeTroca.setText(troca.getNomeTroca());
         holder.imageTroca.setImageResource(R.drawable.imagem3);
 

@@ -6,6 +6,8 @@ public class Troca {
     private String nomeTroca;
     private String descTroca;
     private Boolean statusTroca;
+    private String statusRemetente;
+    private String statusDestinatario;
 
 
     public Troca() {
@@ -16,6 +18,15 @@ public class Troca {
         this.nomeTroca = nomeTroca;
         this.descTroca = descTroca;
         this.statusTroca = statusTroca;
+    }
+
+    public Troca(Long codTroca, String nomeTroca, String descTroca, Boolean statusTroca, String statusRemetente, String statusDestinatario) {
+        this.codTroca = codTroca;
+        this.nomeTroca = nomeTroca;
+        this.descTroca = descTroca;
+        this.statusTroca = statusTroca;
+        this.statusRemetente = statusRemetente;
+        this.statusDestinatario = statusDestinatario;
     }
 
     public Long getCodTroca() {
@@ -48,5 +59,21 @@ public class Troca {
 
     public void setStatusTroca(Boolean statusTroca) {
         this.statusTroca = statusTroca;
+    }
+
+    public String getStatusRemetente() {
+        return statusRemetente;
+    }
+
+    public void setStatusRemetente(String statusRemetente) {
+        this.statusRemetente = statusRemetente;
+    }
+
+    public String getStatusDestinatario() {
+        return statusDestinatario;
+    }
+
+    public void setStatusDestinatario(String statusDestinatario) {
+        this.statusDestinatario = statusDestinatario;
     }
 }
