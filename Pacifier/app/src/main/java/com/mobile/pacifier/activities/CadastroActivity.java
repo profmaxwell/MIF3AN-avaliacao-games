@@ -50,9 +50,9 @@ public class CadastroActivity extends AppCompatActivity {
         String textoSobrenome = editSobrenome.getText().toString();
         String textoEmail = editEmail.getText().toString();
         String textoNum = editNum.getText().toString();
-        Long textoCpf = Long.valueOf(editCpf.getText().toString());
+        Long textoCpf = null;
         String textoSenha = editSenha.getText().toString();
-        String textoGenero;
+        String textoGenero = "";
 
         if (radioMasc.isChecked()) {
             textoGenero = radioMasc.getText().toString();
@@ -60,8 +60,96 @@ public class CadastroActivity extends AppCompatActivity {
             textoGenero = radioFem.getText().toString();
         } else if (radioOutros.isChecked()) {
             textoGenero = radioOutros.getText().toString();
-        } else {
-            textoGenero = "";
+        }
+
+        if (textoNome.isEmpty()) {
+            Toast.makeText(CadastroActivity.this, "Preencha o nome!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (textoSobrenome.isEmpty()) {
+            Toast.makeText(CadastroActivity.this, "Preencha o sobrenome!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (textoEmail.isEmpty()) {
+            Toast.makeText(CadastroActivity.this, "Preencha o email!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (authService.checkIfExists("email", textoEmail)) {
+            editEmail.setError("Esse email ja está cadastrado!");
+            return;
+        }
+
+        if (textoNum.isEmpty()) {
+            Toast.makeText(CadastroActivity.this, "Preencha o número!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (authService.checkIfExists("celular", textoNum)) {
+            editEmail.setError("Esse número já está cadastrado!");
+            return;
+        }
+
+        try {
+            textoCpf = Long.valueOf(editCpf.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(CadastroActivity.this, "Preencha o CPF corretamente!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (textoCpf == null) {
+            Toast.makeText(CadastroActivity.this, "Preencha o CPF!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (authService.checkIfExists("cpf", String.valueOf(textoCpf))) {
+            editEmail.setError("Esse CPF já está cadastrado!");
+            return;
+        }
+
+        if (textoSenha.isEmpty()) {
+            Toast.makeText(CadastroActivity.this, "Preencha a senha!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (textoGenero.isEmpty()) {
+            Toast.makeText(this, "Selecione um gênero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setCpf(textoCpf);
+        usuario.setNome(textoNome);
+        usuario.setSobrenome(textoSobrenome);
+        usuario.setEmail(textoEmail);
+        usuario.setCelular(textoNum);
+        usuario.setSenha(textoSenha);
+        usuario.setGenero(textoGenero);
+
+        authService.cadastrarUsuario(usuario);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+   /* public void validarCadastroUsuarios(View view) {
+        String textoNome = editNome.getText().toString();
+        String textoSobrenome = editSobrenome.getText().toString();
+        String textoEmail = editEmail.getText().toString();
+        String textoNum = editNum.getText().toString();
+        Long textoCpf = Long.valueOf(editCpf.getText().toString());
+        String textoSenha = editSenha.getText().toString();
+        String textoGenero;
+        boolean algumSelecionado = false;
+
+        if (radioMasc.isChecked()) {
+            textoGenero = radioMasc.getText().toString();
+        } else if (radioFem.isChecked()) {
+            textoGenero = radioFem.getText().toString();
+        } else if (radioOutros.isChecked()) {
+            textoGenero = radioOutros.getText().toString();
         }
 
         if (!textoNome.isEmpty()) { // Verificar nome
@@ -73,21 +161,36 @@ public class CadastroActivity extends AppCompatActivity {
                                 if (!(textoCpf == null)) { // Verificar cpf
                                     if (!(authService.checkIfExists("cpf", String.valueOf(textoCpf)))) { // Verifica se existe o cpf
                                         if (!textoSenha.isEmpty()) { // Verificar senha
+                                            if (radioMasc.isChecked()) {
+                                                textoGenero = radioMasc.getText().toString();
+                                                algumSelecionado = true;
+                                            } else if (radioFem.isChecked()) {
+                                                textoGenero = radioFem.getText().toString();
+                                                algumSelecionado = true;
+                                            } else if (radioOutros.isChecked()) {
+                                                textoGenero = radioOutros.getText().toString();
+                                                algumSelecionado = true;
+                                            } else {
+                                                textoGenero = "";
+                                            }
 
-                                            Usuario usuario = new Usuario();
-                                            usuario.setCpf(textoCpf);
-                                            usuario.setNome(textoNome);
-                                            usuario.setSobrenome(textoSobrenome);
-                                            usuario.setEmail(textoEmail);
-                                            usuario.setCelular(textoNum);
-                                            usuario.setSenha(textoSenha);
-                                            usuario.setGenero(textoGenero);
+                                            if (algumSelecionado) {
+                                                Usuario usuario = new Usuario();
+                                                usuario.setCpf(textoCpf);
+                                                usuario.setNome(textoNome);
+                                                usuario.setSobrenome(textoSobrenome);
+                                                usuario.setEmail(textoEmail);
+                                                usuario.setCelular(textoNum);
+                                                usuario.setSenha(textoSenha);
+                                                usuario.setGenero(textoGenero);
 
-                                            authService.cadastrarUsuario(usuario);
+                                                authService.cadastrarUsuario(usuario);
 
-                                            Intent intent = new Intent(this, LoginActivity.class);
-                                            startActivity(intent);
-
+                                                Intent intent = new Intent(this, LoginActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                Toast.makeText(this, "Selecione um gênero", Toast.LENGTH_SHORT).show();
+                                            }
                                         } else {
                                             Toast.makeText(CadastroActivity.this, "Preencha a senha!", Toast.LENGTH_SHORT).show();
                                         }
@@ -115,5 +218,5 @@ public class CadastroActivity extends AppCompatActivity {
         } else {
             Toast.makeText(CadastroActivity.this, "Preencha o nome!", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 }
