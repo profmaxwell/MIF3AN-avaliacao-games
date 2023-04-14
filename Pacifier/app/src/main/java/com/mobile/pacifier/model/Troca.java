@@ -9,6 +9,9 @@ public class Troca {
     private String statusRemetente;
     private String statusDestinatario;
 
+    private Long codImagem;
+    private String urlImagem;
+
 
     public Troca() {
     }
@@ -27,6 +30,17 @@ public class Troca {
         this.statusTroca = statusTroca;
         this.statusRemetente = statusRemetente;
         this.statusDestinatario = statusDestinatario;
+    }
+
+    public Troca(Long codTroca, String nomeTroca, String descTroca, Boolean statusTroca, String statusRemetente, String statusDestinatario, Long codImagem, String urlImagem) {
+        this.codTroca = codTroca;
+        this.nomeTroca = nomeTroca;
+        this.descTroca = descTroca;
+        this.statusTroca = statusTroca;
+        this.statusRemetente = statusRemetente;
+        this.statusDestinatario = statusDestinatario;
+        this.codImagem = codImagem;
+        this.urlImagem = urlImagem;
     }
 
     public Long getCodTroca() {
@@ -75,5 +89,21 @@ public class Troca {
 
     public void setStatusDestinatario(String statusDestinatario) {
         this.statusDestinatario = statusDestinatario;
+    }
+
+    public Long getCodImagem() {
+        return codImagem;
+    }
+
+    public void setCodImagem(Long codImagem) {
+        this.codImagem = codImagem;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }

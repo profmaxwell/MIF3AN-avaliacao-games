@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.Cloudinary;
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.config.CloudinaryConfig;
 import com.mobile.pacifier.model.Anuncio;
 
 import java.util.List;
@@ -36,10 +39,13 @@ public class AdapterVenda extends RecyclerView.Adapter<AdapterVenda.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolderVenda holder, int position) {
 
         Anuncio anuncio = listAnuncios.get(position);
-        holder.imageVenda.setImageResource(R.drawable.imagem4);
         holder.textNomeVenda.setText(anuncio.getNomeAnuncio());
         holder.textQuantVenda.setText(anuncio.getQuantVendida().toString());
         holder.textValorVenda.setText(anuncio.getValorAnuncio().toString());
+
+        Cloudinary cloudinary = new Cloudinary(CloudinaryConfig.getMyConfig());
+        String imageUrl = cloudinary.url().generate(anuncio.getUrlImagem());
+        Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.imageVenda);
 
     }
 

@@ -12,8 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.Cloudinary;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.activities.ComentarActivity;
+import com.mobile.pacifier.config.CloudinaryConfig;
 import com.mobile.pacifier.model.Anuncio;
 
 import java.util.List;
@@ -43,7 +46,10 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> 
         holder.textNome.setText(anuncio.getNomeAnuncio());
         holder.textVendedor.setText(anuncio.getNomeVendedor());
         holder.textValor.setText(anuncio.getValorAnuncio().toString());
-        holder.imageAvaliar.setImageResource(R.drawable.imagem1);
+
+        Cloudinary cloudinary = new Cloudinary(CloudinaryConfig.getMyConfig());
+        String imageUrl = cloudinary.url().generate(anuncio.getUrlImagem());
+        Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.imageAvaliar);
 
         Button button = holder.itemView.findViewById(R.id.buttonAvaliar);
 

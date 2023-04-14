@@ -13,10 +13,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.cloudinary.Cloudinary;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.databinding.ActivityNavigationBinding;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NavigationActivity extends AppCompatActivity {
 

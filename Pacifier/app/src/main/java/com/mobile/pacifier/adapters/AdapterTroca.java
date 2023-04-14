@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.Cloudinary;
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.config.CloudinaryConfig;
 import com.mobile.pacifier.model.Troca;
 
 import java.util.List;
@@ -39,7 +42,10 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
         holder.textStatusRemetente.setText(troca.getStatusRemetente());
         holder.textStatusDestinatario.setText(troca.getStatusDestinatario());
         holder.textNomeTroca.setText(troca.getNomeTroca());
-        holder.imageTroca.setImageResource(R.drawable.imagem3);
+
+        Cloudinary cloudinary = new Cloudinary(CloudinaryConfig.getMyConfig());
+        String imageUrl = cloudinary.url().generate(troca.getUrlImagem());
+        Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.imageTroca);
 
     }
 

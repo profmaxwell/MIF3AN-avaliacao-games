@@ -14,6 +14,8 @@ public class Anuncio {
 
     private String statusPedido;
     private String nomeVendedor;
+    private Long codImagem;
+    private String urlImagem;
 
     public Anuncio() {
     }
@@ -29,6 +31,22 @@ public class Anuncio {
         this.cpfUsuario = cpfUsuario;
         this.statusPedido = statusPedido;
         this.nomeVendedor = nomeVendedor;
+    }
+
+    public Anuncio(Long codAnuncio, String nomeAnuncio, String descAnuncio, Double valorAnuncio, Integer quantAnuncio, Boolean statusAnuncio, String generoAnuncio, Long cpfUsuario, Integer quantVendida, String statusPedido, String nomeVendedor, Long codImagem, String urlImagem) {
+        this.codAnuncio = codAnuncio;
+        this.nomeAnuncio = nomeAnuncio;
+        this.descAnuncio = descAnuncio;
+        this.valorAnuncio = valorAnuncio;
+        this.quantAnuncio = quantAnuncio;
+        this.statusAnuncio = statusAnuncio;
+        this.generoAnuncio = generoAnuncio;
+        this.cpfUsuario = cpfUsuario;
+        this.quantVendida = quantVendida;
+        this.statusPedido = statusPedido;
+        this.nomeVendedor = nomeVendedor;
+        this.codImagem = codImagem;
+        this.urlImagem = urlImagem;
     }
 
     public Long getCodAnuncio() {
@@ -117,5 +135,21 @@ public class Anuncio {
 
     public void setNomeVendedor(String nomeVendedor) {
         this.nomeVendedor = nomeVendedor;
+    }
+
+    public Long getCodImagem() {
+        return codImagem;
+    }
+
+    public void setCodImagem(Long codImagem) {
+        this.codImagem = codImagem;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }
