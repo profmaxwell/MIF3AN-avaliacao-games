@@ -23,6 +23,7 @@ public class ComentarActivity extends AppCompatActivity {
     private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     private Long cpf = null;
+    private Long codAnuncio = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,11 @@ public class ComentarActivity extends AppCompatActivity {
             cpf = preferences.getLong("cpfUsuarioLogado", 0);
         }
 
+        // Pega o codigo do anuncio
+        Intent intent = getIntent();
+        if (intent.hasExtra("codAnuncio")) {
+            codAnuncio = intent.getLongExtra("codAnuncio", 0);
+        }
     }
 
     public void avaliar(View view) {
@@ -51,7 +57,7 @@ public class ComentarActivity extends AppCompatActivity {
             Comentario comentario = new Comentario();
             comentario.setAvalComentario(avaliar);
             comentario.setComenComentario(comentar);
-            comentario.setCodAnuncio(7L); // Arrumar
+            comentario.setCodAnuncio(codAnuncio);
             comentario.setCpfUsuario(cpf);
             comentarioService.avaliarProduto(comentario);
 

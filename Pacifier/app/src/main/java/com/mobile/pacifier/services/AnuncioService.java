@@ -229,8 +229,12 @@ public class AnuncioService {
         List<Anuncio> anuncios = new ArrayList<>();
 
         try {
-            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT a.cod_anuncio, a.nome_anuncio, a.valor_anuncio, a.quant_vendida, u.nome FROM anuncio a JOIN item_pedido ip ON a.cod_anuncio = ip.cod_anuncio JOIN pedido p ON ip.cod_pedido = p.cod_pedido JOIN usuario u ON a.cpf_usuario = u.cpf WHERE p.cod_usuario = ? AND p.status_pedido = 'ENTREGUE'");
+            //PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT a.cod_anuncio, a.nome_anuncio, a.valor_anuncio, a.quant_vendida, u.nome FROM anuncio a JOIN item_pedido ip ON a.cod_anuncio = ip.cod_anuncio JOIN pedido p ON ip.cod_pedido = p.cod_pedido JOIN usuario u ON a.cpf_usuario = u.cpf WHERE p.cod_usuario = ? AND p.status_pedido = 'ENTREGUE'");
+            //statement.setLong(1, cpf);
+
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT a.cod_anuncio, a.nome_anuncio, a.valor_anuncio, a.quant_vendida, u.nome FROM anuncio a JOIN item_pedido ip ON a.cod_anuncio = ip.cod_anuncio JOIN pedido p ON ip.cod_pedido = p.cod_pedido JOIN usuario u ON a.cpf_usuario = u.cpf WHERE p.cod_usuario = ? AND p.status_pedido = 'ENTREGUE' AND a.cod_anuncio NOT IN (SELECT cod_anuncio FROM comentario WHERE cpf_usuario = ?)");
             statement.setLong(1, cpf);
+            statement.setLong(2, cpf);
 
             ResultSet rs = statement.executeQuery();
 

@@ -1,8 +1,11 @@
 package com.mobile.pacifier.adapters;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
+import com.mobile.pacifier.activities.ComentarActivity;
 import com.mobile.pacifier.model.Anuncio;
 
 import java.util.List;
@@ -33,13 +37,25 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Anuncio anuncio = listAnuncio.get(position);
         holder.textNome.setText(anuncio.getNomeAnuncio());
         holder.textVendedor.setText(anuncio.getNomeVendedor());
         holder.textValor.setText(anuncio.getValorAnuncio().toString());
         holder.imageAvaliar.setImageResource(R.drawable.imagem1);
+
+        Button button = holder.itemView.findViewById(R.id.buttonAvaliar);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Long codAnuncio = anuncio.getCodAnuncio();
+                Intent intent = new Intent(v.getContext(), ComentarActivity.class);
+                intent.putExtra("codAnuncio", codAnuncio);
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
