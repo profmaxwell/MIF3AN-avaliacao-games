@@ -29,8 +29,7 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
     @Override
     public MyViewHolderTroca onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View itemLista = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.troca_detalhe, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.troca_detalhe, parent, false);
 
         return new MyViewHolderTroca(itemLista);
     }

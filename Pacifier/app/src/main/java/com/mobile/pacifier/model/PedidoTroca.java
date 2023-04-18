@@ -6,6 +6,7 @@ public class PedidoTroca {
     private String dataPedidoTroca;
     private String statusRemetente;
     private String statusDestinatario;
+    private Long codTroca;
 
     public PedidoTroca() {
     }
@@ -15,6 +16,14 @@ public class PedidoTroca {
         this.dataPedidoTroca = dataPedidoTroca;
         this.statusRemetente = statusRemetente;
         this.statusDestinatario = statusDestinatario;
+    }
+
+    public PedidoTroca(Long codPedidoTroca, String dataPedidoTroca, String statusRemetente, String statusDestinatario, Long codTroca) {
+        this.codPedidoTroca = codPedidoTroca;
+        this.dataPedidoTroca = dataPedidoTroca;
+        this.statusRemetente = statusRemetente;
+        this.statusDestinatario = statusDestinatario;
+        this.codTroca = codTroca;
     }
 
     public Long getCodPedidoTroca() {
@@ -47,5 +56,13 @@ public class PedidoTroca {
 
     public void setStatusDestinatario(String statusDestinatario) {
         this.statusDestinatario = statusDestinatario;
+    }
+
+    public Long getCodTroca() {
+        return codTroca;
+    }
+
+    public void setCodTroca(Long codTroca) {
+        this.codTroca = codTroca;
     }
 }
