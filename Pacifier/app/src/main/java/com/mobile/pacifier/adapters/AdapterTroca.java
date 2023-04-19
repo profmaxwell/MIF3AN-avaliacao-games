@@ -13,16 +13,16 @@ import com.bumptech.glide.Glide;
 import com.cloudinary.Cloudinary;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.config.CloudinaryConfig;
-import com.mobile.pacifier.model.Troca;
+import com.mobile.pacifier.model.PedidoTroca;
 
 import java.util.List;
 
 public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolderTroca> {
 
-    private List<Troca> listTrocas;
+    private List<PedidoTroca> listPedidoTrocas;
 
-    public AdapterTroca(List<Troca> trocas) {
-        this.listTrocas = trocas;
+    public AdapterTroca(List<PedidoTroca> trocas) {
+        this.listPedidoTrocas = trocas;
     }
 
     @NonNull
@@ -37,20 +37,20 @@ public class AdapterTroca extends RecyclerView.Adapter<AdapterTroca.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolderTroca holder, int position) {
 
-        Troca troca = listTrocas.get(position);
-        holder.textStatusRemetente.setText(troca.getStatusRemetente());
-        holder.textStatusDestinatario.setText(troca.getStatusDestinatario());
-        holder.textNomeTroca.setText(troca.getNomeTroca());
+        PedidoTroca pedidoTroca = listPedidoTrocas.get(position);
+        holder.textStatusRemetente.setText(pedidoTroca.getStatusRemetente());
+        holder.textStatusDestinatario.setText(pedidoTroca.getStatusDestinatario());
+        holder.textNomeTroca.setText(pedidoTroca.getNomeTroca());
 
         Cloudinary cloudinary = new Cloudinary(CloudinaryConfig.getMyConfig());
-        String imageUrl = cloudinary.url().generate(troca.getUrlImagem());
+        String imageUrl = cloudinary.url().generate(pedidoTroca.getUrlImagem());
         Glide.with(holder.itemView.getContext()).load(imageUrl).into(holder.imageTroca);
 
     }
 
     @Override
     public int getItemCount() {
-        return listTrocas.size();
+        return listPedidoTrocas.size();
     }
 
     public class MyViewHolderTroca extends RecyclerView.ViewHolder {

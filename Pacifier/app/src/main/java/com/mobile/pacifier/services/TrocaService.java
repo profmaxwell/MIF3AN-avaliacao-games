@@ -14,8 +14,8 @@ public class TrocaService {
 
     private static final String TAG = "TrocaService";
 
-    public List<Troca> listarTrocaByPedidoAntigo(Long cpf) {
-        List<Troca> trocas = new ArrayList<>();
+    public List<PedidoTroca> listarTrocaByPedidoAntigo(Long cpf) {
+        List<PedidoTroca> pedidoTrocas = new ArrayList<>();
 
         try {
             PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM pedido_troca WHERE cpf_usuario=?");
@@ -28,32 +28,18 @@ public class TrocaService {
                 pedidoTroca.setCodPedidoTroca(rs.getLong("cod_pedido_troca"));
                 pedidoTroca.setStatusDestinatario(rs.getString("status_destinatario"));
                 pedidoTroca.setStatusRemetente(rs.getString("status_remetente"));
-                pedidoTroca.setCodTroca(rs.getLong("cod_troca"));
+                pedidoTroca.setNomeTroca(rs.getString("nome_troca"));
+                pedidoTroca.setCodImagem(rs.getLong("cod_imagem"));
 
-                PreparedStatement statement2 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM troca WHERE cod_troca=" + pedidoTroca.getCodTroca());
-                ResultSet rs2 = statement2.executeQuery();
-                while (rs2.next()) {
-                    Troca troca = new Troca();
-                    troca.setCodTroca(rs2.getLong("cod_troca"));
-                    troca.setNomeTroca(rs2.getString("nome_troca"));
-                    troca.setCodImagem(rs2.getLong("cod_imagem"));
-                    troca.setStatusDestinatario(pedidoTroca.getStatusDestinatario());
-                    troca.setStatusRemetente(pedidoTroca.getStatusRemetente());
+                PreparedStatement statement3 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM imagem WHERE cod_imagem=" + pedidoTroca.getCodImagem());
+                ResultSet rs3 = statement3.executeQuery();
 
-                    PreparedStatement statement3 = DatabaseManager.getConnection().prepareStatement("SELECT * FROM imagem WHERE cod_imagem=" + troca.getCodImagem());
-                    ResultSet rs3 = statement3.executeQuery();
+                if (rs3.next()) {
+                    pedidoTroca.setUrlImagem(rs3.getString("url"));
 
-                    if (rs3.next()) {
-                        troca.setUrlImagem(rs3.getString("url"));
-
-                        trocas.add(troca);
-                    }
-
+                    pedidoTrocas.add(pedidoTroca);
                 }
 
-                rs2.close();
-                statement2.close();
-                DatabaseManager.getConnection().close();
             }
 
             rs.close();
@@ -66,10 +52,46 @@ public class TrocaService {
             throw new RuntimeException(e);
         }
 
-        return trocas;
+        return pedidoTrocas;
     }
 
-    public List<Troca> listarTrocaByPedido(Long cpf) {
+    public List<PedidoTroca> listarTrocaByPedido(Long cpf) {
+        List<PedidoTroca> pedidoTrocas = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(
+                    "SELECT pt.cod_pedido_troca, pt.status_destinatario, pt.status_remetente, pt.nome_troca, pt.cod_imagem, im.url " +
+                            "FROM pedido_troca pt " +
+                            "JOIN imagem im ON pt.cod_imagem = im.cod_imagem " +
+                            "WHERE pt.cpf_usuario=? " +
+                            "LIMIT 100");
+
+            statement.setLong(1, cpf);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    PedidoTroca pedidoTroca = new PedidoTroca();
+                    pedidoTroca.setCodPedidoTroca(rs.getLong("cod_pedido_troca"));
+                    pedidoTroca.setStatusDestinatario(rs.getString("status_destinatario"));
+                    pedidoTroca.setStatusRemetente(rs.getString("status_remetente"));
+                    pedidoTroca.setNomeTroca(rs.getString("nome_troca"));
+                    pedidoTroca.setCodImagem(rs.getLong("cod_imagem"));
+                    pedidoTroca.setUrlImagem(rs.getString("url"));
+
+                    pedidoTrocas.add(pedidoTroca);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        return pedidoTrocas;
+    }
+
+    public List<Troca> listarTrocaByPedido2(Long cpf) {
         List<Troca> trocas = new ArrayList<>();
 
         try {

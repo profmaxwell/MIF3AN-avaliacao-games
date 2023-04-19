@@ -6,7 +6,9 @@ public class PedidoTroca {
     private String dataPedidoTroca;
     private String statusRemetente;
     private String statusDestinatario;
-    private Long codTroca;
+    private String nomeTroca;
+    private Long codImagem;
+    private String urlImagem;
 
     public PedidoTroca() {
     }
@@ -18,12 +20,14 @@ public class PedidoTroca {
         this.statusDestinatario = statusDestinatario;
     }
 
-    public PedidoTroca(Long codPedidoTroca, String dataPedidoTroca, String statusRemetente, String statusDestinatario, Long codTroca) {
+    public PedidoTroca(Long codPedidoTroca, String dataPedidoTroca, String statusRemetente, String statusDestinatario, String nomeTroca, Long codImagem, String urlImagem) {
         this.codPedidoTroca = codPedidoTroca;
         this.dataPedidoTroca = dataPedidoTroca;
         this.statusRemetente = statusRemetente;
         this.statusDestinatario = statusDestinatario;
-        this.codTroca = codTroca;
+        this.nomeTroca = nomeTroca;
+        this.codImagem = codImagem;
+        this.urlImagem = urlImagem;
     }
 
     public Long getCodPedidoTroca() {
@@ -58,11 +62,27 @@ public class PedidoTroca {
         this.statusDestinatario = statusDestinatario;
     }
 
-    public Long getCodTroca() {
-        return codTroca;
+    public String getNomeTroca() {
+        return nomeTroca;
     }
 
-    public void setCodTroca(Long codTroca) {
-        this.codTroca = codTroca;
+    public void setNomeTroca(String nomeTroca) {
+        this.nomeTroca = nomeTroca;
+    }
+
+    public Long getCodImagem() {
+        return codImagem;
+    }
+
+    public void setCodImagem(Long codImagem) {
+        this.codImagem = codImagem;
+    }
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
     }
 }

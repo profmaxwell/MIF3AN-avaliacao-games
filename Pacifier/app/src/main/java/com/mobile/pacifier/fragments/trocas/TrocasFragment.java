@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.adapters.AdapterTroca;
-import com.mobile.pacifier.model.Troca;
+import com.mobile.pacifier.model.PedidoTroca;
 import com.mobile.pacifier.services.TrocaService;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class TrocasFragment extends Fragment {
     private TrocaService trocaService;
 
     Long cpf = null;
-    private List<Troca> trocas = new ArrayList<>();
+    private List<PedidoTroca> trocas = new ArrayList<>();
     private static final String ARQUIVO_PREFERENCIA = "ArquivoPreferencia";
 
     public TrocasFragment() {
