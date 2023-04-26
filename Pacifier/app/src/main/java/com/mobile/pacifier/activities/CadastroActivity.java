@@ -14,6 +14,9 @@ import com.mobile.pacifier.R;
 import com.mobile.pacifier.model.Usuario;
 import com.mobile.pacifier.services.AuthService;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CadastroActivity extends AppCompatActivity {
 
     private TextInputEditText editNome, editSobrenome, editEmail, editNum, editCpf, editSenha;
@@ -76,6 +79,11 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
+        if (!validarEmail(textoEmail)) {
+            Toast.makeText(CadastroActivity.this, "Digite um email válido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (authService.checkIfExists("email", textoEmail)) {
             editEmail.setError("Esse email ja está cadastrado!");
             return;
@@ -86,8 +94,13 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
+        if (!validarNumero(textoNum)) {
+            Toast.makeText(CadastroActivity.this, "Digite um numero válido!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (authService.checkIfExists("celular", textoNum)) {
-            editEmail.setError("Esse número já está cadastrado!");
+            editNum.setError("Esse número já está cadastrado!");
             return;
         }
 
@@ -131,6 +144,35 @@ public class CadastroActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+    private boolean validarNumero(String numero) {
+        // Crie a expressão regular para verificar se o número é válido
+        String numeroPattern = "\\d{11}";
+
+        // Crie um objeto Pattern com a expressão regular
+        Pattern pattern = Pattern.compile(numeroPattern);
+
+        // Crie um objeto Matcher com o número a ser verificado
+        Matcher matcher = pattern.matcher(numero);
+
+        // Verifique se o número corresponde à expressão regular
+        return matcher.matches();
+    }
+
+    private boolean validarEmail(String email) {
+        // Crie a expressão regular para verificar se o email é válido
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        // Crie um objeto Pattern com a expressão regular
+        Pattern pattern = Pattern.compile(emailPattern);
+
+        // Crie um objeto Matcher com o email a ser verificado
+        Matcher matcher = pattern.matcher(email);
+
+        // Verifique se o email corresponde à expressão regular
+        return matcher.matches();
+    }
+
 
    /* public void validarCadastroUsuarios(View view) {
         String textoNome = editNome.getText().toString();
