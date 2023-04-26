@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,7 @@ public class CadastroActivity extends AppCompatActivity {
     private TextInputEditText editNome, editSobrenome, editEmail, editNum, editCpf, editSenha;
     private Button buttonCadastrar;
 
-    private RadioButton radioMasc, radioFem, radioOutros;
+    /*private RadioButton radioMasc, radioFem, radioOutros;*/
 
     private AuthService authService;
 
@@ -37,9 +36,9 @@ public class CadastroActivity extends AppCompatActivity {
         editCpf = findViewById(R.id.editCpf);
         editSenha = findViewById(R.id.editSenha);
         buttonCadastrar = findViewById(R.id.buttonCadastrar);
-        radioMasc = findViewById(R.id.radioMasc);
+        /*radioMasc = findViewById(R.id.radioMasc);
         radioFem = findViewById(R.id.radioFem);
-        radioOutros = findViewById(R.id.radioOutros);
+        radioOutros = findViewById(R.id.radioOutros);*/
 
         authService = new AuthService();
 
@@ -52,15 +51,15 @@ public class CadastroActivity extends AppCompatActivity {
         String textoNum = editNum.getText().toString();
         Long textoCpf = null;
         String textoSenha = editSenha.getText().toString();
-        String textoGenero = "";
+        /*String textoGenero = "";*/
 
-        if (radioMasc.isChecked()) {
+        /*if (radioMasc.isChecked()) {
             textoGenero = radioMasc.getText().toString();
         } else if (radioFem.isChecked()) {
             textoGenero = radioFem.getText().toString();
         } else if (radioOutros.isChecked()) {
             textoGenero = radioOutros.getText().toString();
-        }
+        }*/
 
         if (textoNome.isEmpty()) {
             Toast.makeText(CadastroActivity.this, "Preencha o nome!", Toast.LENGTH_SHORT).show();
@@ -114,10 +113,10 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        if (textoGenero.isEmpty()) {
+        /*if (textoGenero.isEmpty()) {
             Toast.makeText(this, "Selecione um gênero", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
 
         Usuario usuario = new Usuario();
         usuario.setCpf(textoCpf);
@@ -126,7 +125,6 @@ public class CadastroActivity extends AppCompatActivity {
         usuario.setEmail(textoEmail);
         usuario.setCelular(textoNum);
         usuario.setSenha(textoSenha);
-        usuario.setGenero(textoGenero);
 
         authService.cadastrarUsuario(usuario);
 

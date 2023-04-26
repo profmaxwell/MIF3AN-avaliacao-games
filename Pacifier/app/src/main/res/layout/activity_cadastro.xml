@@ -12,10 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -127,69 +125,17 @@
             android:hint="Digite seu senha" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGroupGenero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
-        <RadioButton
-            android:id="@+id/radioMasc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Masculino"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/radioFem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Feminino"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-        <RadioButton
-            android:id="@+id/radioOutros"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Outros"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
-
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:text="Gênero"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
-
     <Button
         android:id="@+id/buttonCadastrar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:onClick="validarCadastroUsuario"
         android:text="cadastrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupGenero" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout8" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
