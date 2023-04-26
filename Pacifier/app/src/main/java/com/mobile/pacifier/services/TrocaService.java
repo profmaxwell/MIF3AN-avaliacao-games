@@ -63,8 +63,7 @@ public class TrocaService {
                     "SELECT pt.cod_pedido_troca, pt.status_destinatario, pt.status_remetente, pt.nome_troca, pt.cod_imagem, im.url " +
                             "FROM pedido_troca pt " +
                             "JOIN imagem im ON pt.cod_imagem = im.cod_imagem " +
-                            "WHERE pt.cpf_usuario=? " +
-                            "LIMIT 100");
+                            "WHERE pt.cpf_usuario=? ");
 
             statement.setLong(1, cpf);
 
