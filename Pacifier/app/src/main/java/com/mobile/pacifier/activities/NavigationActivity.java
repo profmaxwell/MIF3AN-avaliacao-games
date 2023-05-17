@@ -13,14 +13,10 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.cloudinary.Cloudinary;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.mobile.pacifier.R;
 import com.mobile.pacifier.databinding.ActivityNavigationBinding;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -48,7 +44,7 @@ public class NavigationActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_compras, R.id.nav_vendas, R.id.nav_trocas)
+                R.id.nav_home, R.id.nav_compras, R.id.nav_vendas, R.id.nav_trocas, R.id.nav_about)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_navigation);
