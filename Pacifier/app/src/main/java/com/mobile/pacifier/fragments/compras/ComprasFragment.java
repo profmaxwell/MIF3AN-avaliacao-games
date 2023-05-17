@@ -65,14 +65,21 @@ public class ComprasFragment extends Fragment {
         // Pega a lista de anuncios
         //anuncios = anuncioService.listarAnuncioByPedido(cpf);
 
-        LoadDataTaskCompra loadDataTaskCompra = new LoadDataTaskCompra();
-        loadDataTaskCompra.execute();
+        //LoadDataTaskCompra loadDataTaskCompra = new LoadDataTaskCompra();
+        //loadDataTaskCompra.execute();
 
         // Define adapter
         //AdapterCompra adapterCompra = new AdapterCompra(anuncios);
         //recyclerCompra.setAdapter(adapterCompra);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadDataTaskCompra loadDataTaskCompra = new LoadDataTaskCompra();
+        loadDataTaskCompra.execute();
     }
 
     private class LoadDataTaskCompra extends AsyncTask<Void, Void, List<Anuncio>> {

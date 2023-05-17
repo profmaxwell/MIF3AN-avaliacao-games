@@ -80,10 +80,17 @@ public class HomeFragment extends Fragment {
             recyclerHome.setAdapter(adapterHome);
         }*/
 
-        LoadDataTask loadDataTask = new LoadDataTask();
-        loadDataTask.execute();
+        //LoadDataTask loadDataTask = new LoadDataTask();
+        //loadDataTask.execute();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadDataTask loadDataTask = new LoadDataTask();
+        loadDataTask.execute();
     }
 
     private class LoadDataTask extends AsyncTask<Void, Void, List<Anuncio>> {

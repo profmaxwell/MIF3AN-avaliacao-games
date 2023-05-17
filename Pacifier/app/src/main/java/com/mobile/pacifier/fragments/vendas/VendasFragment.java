@@ -54,14 +54,21 @@ public class VendasFragment extends Fragment {
         // Pega lista de anuncios do usuario
         //anuncios = anuncioService.listarAnuncio(cpf);
 
-        LoadDataTaskVenda loadDataTaskVenda = new LoadDataTaskVenda();
-        loadDataTaskVenda.execute();
+        //LoadDataTaskVenda loadDataTaskVenda = new LoadDataTaskVenda();
+        //loadDataTaskVenda.execute();
 
         // Define o adapter
         //AdapterVenda adapterVenda = new AdapterVenda(anuncios);
         //recyclerVenda.setAdapter(adapterVenda);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadDataTaskVenda loadDataTaskVenda = new LoadDataTaskVenda();
+        loadDataTaskVenda.execute();
     }
 
     private class LoadDataTaskVenda extends AsyncTask<Void, Void, List<Anuncio>> {

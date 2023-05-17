@@ -54,14 +54,21 @@ public class TrocasFragment extends Fragment {
         // Lista de trocas
         //trocas = trocaService.listarTrocaByPedido(cpf);
 
-        LoadDataTaskTroca loadDataTaskTroca = new LoadDataTaskTroca();
-        loadDataTaskTroca.execute();
+        //LoadDataTaskTroca loadDataTaskTroca = new LoadDataTaskTroca();
+        //loadDataTaskTroca.execute();
 
         // Define o adapter
         //AdapterTroca adapterTroca = new AdapterTroca(trocas);
         //recyclerTroca.setAdapter(adapterTroca);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LoadDataTaskTroca loadDataTaskTroca = new LoadDataTaskTroca();
+        loadDataTaskTroca.execute();
     }
 
     private class LoadDataTaskTroca extends AsyncTask<Void, Void, List<PedidoTroca>> {
