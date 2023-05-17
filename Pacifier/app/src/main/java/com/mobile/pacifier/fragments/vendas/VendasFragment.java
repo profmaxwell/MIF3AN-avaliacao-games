@@ -1,6 +1,8 @@
 package com.mobile.pacifier.fragments.vendas;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,12 +34,16 @@ public class VendasFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_vendas, container, false);
 
         recyclerVenda = view.findViewById(R.id.recyclerVenda);
+        anuncioService = new AnuncioService();
+
+        // Define o layout
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerVenda.setLayoutManager(layoutManager);
 
         // Pega o cpf do usuario
         SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
@@ -46,17 +52,46 @@ public class VendasFragment extends Fragment {
         }
 
         // Pega lista de anuncios do usuario
-        anuncioService = new AnuncioService();
-        anuncios = anuncioService.listarAnuncio(cpf);
+        //anuncios = anuncioService.listarAnuncio(cpf);
 
-        // Define o layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerVenda.setLayoutManager(layoutManager);
+        LoadDataTaskVenda loadDataTaskVenda = new LoadDataTaskVenda();
+        loadDataTaskVenda.execute();
 
         // Define o adapter
-        AdapterVenda adapterVenda = new AdapterVenda(anuncios);
-        recyclerVenda.setAdapter(adapterVenda);
+        //AdapterVenda adapterVenda = new AdapterVenda(anuncios);
+        //recyclerVenda.setAdapter(adapterVenda);
 
         return view;
+    }
+
+    private class LoadDataTaskVenda extends AsyncTask<Void, Void, List<Anuncio>> {
+
+        private Dialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            // Mostra o progresso na tela
+            dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.tela_carregamento);
+            dialog.show();
+        }
+
+        @Override
+        protected List<Anuncio> doInBackground(Void... voids) {
+
+            anuncios = anuncioService.listarAnuncio(cpf);
+
+            return anuncios;
+        }
+
+        @Override
+        protected void onPostExecute(List<Anuncio> result) {
+            // Esconde o progresso da tela
+            dialog.dismiss();
+
+            // Define adapter
+            AdapterVenda adapterVenda = new AdapterVenda(anuncios);
+            recyclerVenda.setAdapter(adapterVenda);
+        }
     }
 }

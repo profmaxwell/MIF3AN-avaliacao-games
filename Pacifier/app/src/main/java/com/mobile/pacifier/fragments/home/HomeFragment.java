@@ -54,7 +54,6 @@ public class HomeFragment extends Fragment {
 
         recyclerHome = view.findViewById(R.id.recyclerHome);
 
-
         // Define layout
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerHome.setLayoutManager(layoutManager);
@@ -71,7 +70,7 @@ public class HomeFragment extends Fragment {
         }
 
 
-        if (primeiraVez) {
+        /*if (primeiraVez) {
             LoadDataTask loadDataTask = new LoadDataTask();
             loadDataTask.execute();
         } else {
@@ -79,7 +78,10 @@ public class HomeFragment extends Fragment {
 
             AdapterHome adapterHome = new AdapterHome(anuncios);
             recyclerHome.setAdapter(adapterHome);
-        }
+        }*/
+
+        LoadDataTask loadDataTask = new LoadDataTask();
+        loadDataTask.execute();
 
         return view;
     }

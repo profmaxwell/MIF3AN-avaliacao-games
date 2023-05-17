@@ -1,6 +1,8 @@
 package com.mobile.pacifier.fragments.compras;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,14 +43,18 @@ public class ComprasFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_compras, container, false);
 
         recyclerCompra = view.findViewById(R.id.recyclerCompra);
         pedidoService = new PedidoService();
         anuncioService = new AnuncioService();
+
+        // Define layout
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerCompra.setLayoutManager(layoutManager);
+        recyclerCompra.setHasFixedSize(true);
 
         // Pega o cpf do usuario
         SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
@@ -57,42 +63,46 @@ public class ComprasFragment extends Fragment {
         }
 
         // Pega a lista de anuncios
-        anuncios = anuncioService.listarAnuncioByPedido(cpf);
+        //anuncios = anuncioService.listarAnuncioByPedido(cpf);
 
-        // Define layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerCompra.setLayoutManager(layoutManager);
-        recyclerCompra.setHasFixedSize(true);
+        LoadDataTaskCompra loadDataTaskCompra = new LoadDataTaskCompra();
+        loadDataTaskCompra.execute();
 
         // Define adapter
-        AdapterCompra adapterCompra = new AdapterCompra(anuncios);
-        recyclerCompra.setAdapter(adapterCompra);
+        //AdapterCompra adapterCompra = new AdapterCompra(anuncios);
+        //recyclerCompra.setAdapter(adapterCompra);
 
         return view;
     }
 
-    /*public List<Anuncio> listarAnuncioDoItemPedido() throws SQLException, ClassNotFoundException {
-        List<Anuncio> listAnuncios = new ArrayList<>();
+    private class LoadDataTaskCompra extends AsyncTask<Void, Void, List<Anuncio>> {
 
-        pedidos = pedidoService.listarPedido(cpf);
+        private Dialog dialog;
 
-        for (Pedido p : pedidos) {
-            List<ItemPedido> itens = new ArrayList<>();
-            itens = pedidoService.listarItemPedido(p.getCodPedido());
-            for (ItemPedido ip : itens) {
-                ip.setStatusPedido(p.getStatusPedido());
-                itensPedidos.addAll(itens);
-            }
+        @Override
+        protected void onPreExecute() {
+            // Mostra o progresso na tela
+            dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.tela_carregamento);
+            dialog.show();
         }
 
-        for (ItemPedido ip : itensPedidos) {
-            Anuncio anuncio = new Anuncio();
-            anuncio = anuncioService.listarAnuncioPorCodAnuncio(ip.getCodAnuncio());
-            anuncio.setStatusPedido(ip.getStatusPedido());
-            listAnuncios.add(anuncio);
+        @Override
+        protected List<Anuncio> doInBackground(Void... voids) {
+
+            anuncios = anuncioService.listarAnuncioByPedido(cpf);
+
+            return anuncios;
         }
 
-        return listAnuncios;
-    }*/
+        @Override
+        protected void onPostExecute(List<Anuncio> result) {
+            // Esconde o progresso da tela
+            dialog.dismiss();
 
+            // Define adapter
+            AdapterCompra adapterCompra = new AdapterCompra(anuncios);
+            recyclerCompra.setAdapter(adapterCompra);
+        }
+    }
 }

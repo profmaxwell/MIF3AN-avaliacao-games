@@ -1,6 +1,8 @@
 package com.mobile.pacifier.fragments.trocas;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +35,15 @@ public class TrocasFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trocas, container, false);
 
         recyclerTroca = view.findViewById(R.id.recyclerTroca);
+        trocaService = new TrocaService();
+
+        // Define o layout
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerTroca.setLayoutManager(layoutManager);
 
         // Recuperar usuario
         SharedPreferences preferences = getActivity().getSharedPreferences(ARQUIVO_PREFERENCIA, 0);
@@ -46,17 +52,46 @@ public class TrocasFragment extends Fragment {
         }
 
         // Lista de trocas
-        trocaService = new TrocaService();
-        trocas = trocaService.listarTrocaByPedido(cpf);
+        //trocas = trocaService.listarTrocaByPedido(cpf);
 
-        // Define o layout
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerTroca.setLayoutManager(layoutManager);
+        LoadDataTaskTroca loadDataTaskTroca = new LoadDataTaskTroca();
+        loadDataTaskTroca.execute();
 
         // Define o adapter
-        AdapterTroca adapterTroca = new AdapterTroca(trocas);
-        recyclerTroca.setAdapter(adapterTroca);
+        //AdapterTroca adapterTroca = new AdapterTroca(trocas);
+        //recyclerTroca.setAdapter(adapterTroca);
 
         return view;
+    }
+
+    private class LoadDataTaskTroca extends AsyncTask<Void, Void, List<PedidoTroca>> {
+
+        private Dialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            // Mostra o progresso na tela
+            dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.tela_carregamento);
+            dialog.show();
+        }
+
+        @Override
+        protected List<PedidoTroca> doInBackground(Void... voids) {
+
+            trocas = trocaService.listarTrocaByPedido(cpf);
+
+            return trocas;
+        }
+
+        @Override
+        protected void onPostExecute(List<PedidoTroca> result) {
+            // Esconde o progresso da tela
+            dialog.dismiss();
+
+            // Define adapter
+            AdapterTroca adapterTroca = new AdapterTroca(trocas);
+            recyclerTroca.setAdapter(adapterTroca);
+        }
     }
 }
